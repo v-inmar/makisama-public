@@ -1,0 +1,81 @@
+{{template "base" .}}
+{{define "title"}}{{ .Data.Title }}{{end}}
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            
+            <div class="row">
+                {{ if .Data.IsBoardOwner }}
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p><a class="clean-link" href="/{{ .Data.BoardSlug }}">Back to board</a></p>
+                        <p><a class="clean-link" href="/feedbacks/review?f={{ .Data.FeedbackSlug }}">Review feedback</a></p>
+                    </div>
+                </div>
+                {{ else }}
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p><a class="clean-link" href="/{{ .Data.BoardSlug }}">Back to board</a></p>
+                        <p><a href="/report/feedbacks?f={{ .Data.FeedbackSlug }}" class="clean-link" style="color: #ff0000;">Report this Feedback</a></p>
+                    </div>
+                    
+                </div>
+                {{ end }}
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div style="font-size: 1.3rem;"><strong>{{ .Data.Title }}</strong></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div style="font-size: 0.9rem;" class="text-muted dt-default">{{ .Data.CreatedAt }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <span class="badge text-bg-warning">{{ capitalize .Data.Scope }}</span>
+                                    <span class="badge text-bg-secondary">{{ capitalize .Data.Resolution }}</span>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    {{ if .Data.Description }}
+                                    <div style="font-size: 1.1rem;">{{ .Data.Description }}</div>
+                                    {{ else }}
+                                    <small class="text-info"><em>No Description</em></small>
+                                    {{ end }}
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+{{end}}

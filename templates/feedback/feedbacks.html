@@ -1,0 +1,102 @@
+{{template "base" .}}
+{{define "title"}}Your Feedbacks{{end}}
+{{define "content"}}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="mb-0">Feedbacks ({{ .Data.TotalFeedbackCount }})</p>
+                </div>
+            </div>
+            <hr class="mt-1">
+
+            <div class="row">
+                <div class="col-12">
+                    {{ if .Data.Feedbacks }}
+                    {{ range .Data.Feedbacks }}
+                    <ul class="list-group mb-2">
+                        <li class="list-group-item">
+                            
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <h6 class="text-truncate flex-grow-1 mb-0"><em>{{ .FeedbackTitle }}</em></h6>
+                                        <small class="flex-shrink-0 d-default">{{ formatTime .FeedbackCreatedAt }}</small>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ if .FeedbackDeletedAt.Valid }}
+                                    <span class="badge text-bg-danger">Deleted</span>
+                                    {{ else if .FeedbackExpiresAt.Valid }}
+                                    <span class="badge text-bg-danger d-default" title="Expires after">{{ formatNullTime .FeedbackExpiresAt }}</span>
+                                    {{ else }}
+                                    <span class="badge text-bg-warning">{{ capitalize .FeedbackScope.String }}</span>
+                                    <span class="badge text-bg-secondary">{{ capitalize .FeedbackResolution.String }}</span>
+                                    {{ end }}
+                                </div>
+                            </div>
+
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <small>
+                                            {{ if .BoardSlug }}
+                                            <a class="flex-shrink-0 clean-link" href="/{{ .BoardSlug }}">View board</a>
+                                            {{ else }}
+                                            No Board
+                                            {{ end }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    {{end}}
+                    {{ else }}
+                    <div class="d-flex justify-content-center"><em>No Feedbacks</em></div>
+                    {{ end }}
+
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            {{ if gt (len .Data.PageSequence) 1 }}
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item">
+                                <a class="page-link" href="/feedbacks?page={{ minusminus $.Data.CurrentPage }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {{ range .Data.PageSequence }}
+
+                            <li class="page-item {{ if eq . $.Data.CurrentPage}}active{{ end }}"><a class="page-link" href="/feedbacks?page={{ . }}">{{ . }}</a></li>
+                            {{ end }}
+                            <li class="page-item">
+                                <a class="page-link" href="/feedbacks?page={{ plusplus $.Data.CurrentPage }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+            {{ end }}
+
+        </div>
+    </div>
+</div>
+{{ end }}

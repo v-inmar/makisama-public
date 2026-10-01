@@ -1,0 +1,183 @@
+{{template "base" .}}
+{{define "title"}}Sign Up{{end}}
+
+
+{{define "content"}}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-center">
+            <div class="card shadow mt-5 card-auth-signup">
+                <div class="card-body">
+                    <form action="/auth/signup" method="post">
+                        <div class="row mb-2">
+                            <div class="col-12 d-flex justify-content-center">
+                                <h3 class="elms-sans-auth-card-title">Sign Up</h3>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mb-3">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Firstname</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" {{ if .Data.Firstname }}value="{{.Data.Firstname}}" {{ end }} name="firstname" class="form-control" minlength="{{ .Data.FirstnameMinLen }}" maxlength="{{ .Data.FirstnameMaxLen }}" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorFirstname }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorFirstname }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                            <div class="col-sm-12 col-md-6 mb-3">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Lastname</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" {{ if .Data.Lastname }}value="{{.Data.Lastname}}" {{ end }} name="lastname" class="form-control" minlength="{{ .Data.LastnameMinLen }}" maxlength="{{ .Data.LastnameMaxLen }}" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorLastname }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorLastname }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Email Address</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="email" {{ if .Data.Email }}value="{{.Data.Email}}" {{ end }} name="email" class="form-control" minlength="{{ .Data.EmailMinLen }}" maxlength="{{ .Data.EmailMaxLen }}" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorEmail }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorEmail }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mb-3">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Password</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="password" name="password" class="form-control" minlength="{{ .Data.PasswordMinLen }}" maxlength="{{ .Data.PasswordMaxLen }}"
+                                            required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorPassword }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorPassword }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                            <div class="col-sm-12 col-md-6 mb-3">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Repeat Password</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="password" name="repeat" class="form-control" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorRepeat }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorRepeat }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <div class="cf-turnstile" data-theme="light"
+                                        data-sitekey="{{ .CaptchaSiteKey }}"></div>
+                                    </div>
+                                </div>
+
+                                {{ if .Data.ErrorCaptcha }}
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <small class="text-danger">{{ .Data.ErrorCaptcha}}</small>
+                                    </div>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12 text-center">
+                                <small>By signing up, you are agreeing to our <a class="clean-link" href="/company/terms">Terms of
+                                        Service</a> and <a class="clean-link" href="/company/privacy">Privacy Policy</a></small>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row mb-1">
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100">Sign Up</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <small>Already have an account? Login <a class="clean-link" href="/auth/login">here</a></small>
+    </div>
+</div>
+
+{{end}}

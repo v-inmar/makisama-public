@@ -1,0 +1,150 @@
+
+
+:root {
+  --bg-primary: #f2fbfc;
+}
+
+/* -- General Styles -- */
+
+body {
+  background-color: var(--bg-primary);
+}
+
+nav {
+  background-color: var(--bg-primary);
+}
+
+.nav-div {
+  background-color: var(--bg-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* -- Utility Styles -- */
+.clean-link {
+  text-decoration: none;
+}
+
+/* -- Login Styles -- */
+
+/* Default (mobile) */
+.card-auth-login {
+  width: 100%;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .card-auth-login {
+    width: 30rem;
+  }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+  .card-auth-login {
+    width: 27rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .card-auth-login {
+    width: 25rem;
+  }
+}
+
+/* -- Signup Styles -- */
+
+/* Default (mobile) */
+.card-auth-signup {
+  width: 100%;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .card-auth-signup {
+    width: 32rem;
+  }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+  .card-auth-signup {
+    width: 29rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .card-auth-signup {
+    width: 27rem;
+  }
+}
+
+
+/* -- Forgot Password Styles -- */
+
+/* Default (mobile) */
+.card-auth-fp {
+  width: 100%;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .card-auth-fp {
+    width: 30rem;
+  }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+  .card-auth-fp {
+    width: 27rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .card-auth-fp {
+    width: 25rem;
+  }
+}
+
+
+/* -- Reset Password Styles -- */
+
+/* Default (mobile) */
+.card-auth-reset {
+  width: 100%;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .card-auth-reset {
+    width: 30rem;
+  }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+  .card-auth-reset {
+    width: 27rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .card-auth-reset {
+    width: 25rem;
+  }
+}
+
+
+
+
+/* ----------- Dashboard -------------- */
+
+

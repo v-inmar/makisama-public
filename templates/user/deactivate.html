@@ -1,0 +1,94 @@
+{{template "base" .}}
+{{define "title"}}Deactivate Account{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-8 col-lg-4 offset-md-2 offset-lg-4">
+            <div class="row">
+                <div class="col-12">
+                    <p><a href="/accounts" class="clean-link">Back to account</a></p>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/accounts/deactivate" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <h4>Deactivate Account</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Password</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input name="password" type="password" class="form-control" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorPassword }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorPassword }}</small>
+                                    </div>
+                                </div>
+                                {{end }}
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Deactivating your account will:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul>
+                                            <li><small>Sign you out of all devices.</small></li>
+                                            <li><small>Make all of your boards inaccessible.</small></li>
+                                            <li><small>Prevent new feedback from being submitted to those boards.</small></li>
+                                            <li><small>Allow pending feedback requests to continue expiring as normal.</small></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <button type="submit" class="btn btn-sm btn-danger">Submit</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+{{end}}

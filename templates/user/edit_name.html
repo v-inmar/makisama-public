@@ -1,0 +1,102 @@
+{{template "base" .}}
+{{define "title"}}Edit Name{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-8 col-lg-4 offset-md-2 offset-lg-4">
+
+            <div class="row">
+                <div class="col-12">
+                    <p><a href="/accounts" class="clean-link">Back to account</a></p>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/accounts/edit_name" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <h4>Edit your name</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Firstname</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" name="firstname" {{ if .Data.Firstname }}value="{{ .Data.Firstname }}"{{ end }} class="form-control" minlength="{{ .Data.FirstnameMinLength }}" maxlength="{{ .Data.FirstnameMaxLength }}">
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorFirstname }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorFirstname }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Lastname</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input name="lastname" {{ if .Data.Lastname }}value="{{ .Data.Lastname }}"{{ end }} type="text" class="form-control" minlength="{{ .Data.LastnameMinLength }}" maxlength="{{ .Data.LastnameMaxLength }}">
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorLastname }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorLastname }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+{{end}}

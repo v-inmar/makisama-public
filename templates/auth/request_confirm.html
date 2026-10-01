@@ -1,0 +1,40 @@
+{{template "base" .}}
+{{define "title"}}Reset Password{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-center">
+            <div class="card shadow mt-5 card-auth-reset">
+                <div class="card-body">
+                    <form method="post" action="/auth/request_confirm">
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                        <div class="row mb-2">
+                            <div class="col-12 d-flex justify-content-center">
+                                <h3 class="elms-sans-auth-card-title">Request</h3>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <small>We will send a new confirmation email to your current email</small>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <small>{{ .Data.Email }}</small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-1">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

@@ -1,0 +1,71 @@
+{{template "base" .}}
+{{define "title"}}About{{end}}
+
+{{define "content"}}
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <h4>About</h4>
+                            <p>This platform provides a simple way to collect, review, and manage feedback.</p>
+                            <p>Anyone can create a public feedback board and invite others to share suggestions, report issues, or propose improvements. Feedback can be submitted by both registered and non-registered users.</p>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <h5>How It Works</h5>
+                            <ol>
+                                <li>A board owner creates a feedback board.</li>
+                                <li>Visitors submit feedback to that board.</li>
+                                <li>The board owner reviews each submission and decides how it should be classified.</li>
+                            </ol>
+                            <p>Feedback may be assigned one of the following scopes:</p>
+                            <ul>
+                                {{ range .Data.Scopes }}
+                                <li>{{ capitalize . }}</li>
+                                {{ end }}
+                            </ul>
+                            <p>The board owner can then assign a resolution:</p>
+                            <ul>
+                                {{ range .Data.Resolutions }}
+                                <li>{{ capitalize . }}</li>
+                                {{ end }}
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <h5>Feedback Review Process</h5>
+                            <p>Newly submitted feedback is not immediately visible to the public.</p>
+                            <p>Each submission enters a review period and remains private for up to 7 days. During this time, the board owner can review the feedback and decide whether it should be published.</p>
+                            <p>To publish feedback, the board owner assigns both a scope and a resolution. Once assigned, the feedback becomes publicly visible on the board.</p>
+                            <p>If no scope and resolution are assigned within 7 days, the feedback expires and is no longer available.</p>
+                            <p>Board owners may also choose to delete feedback that is not relevant to their board.</p>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <h5>Purpose</h5>
+                            <p>The purpose of this platform is to make feedback easier to collect and manage while providing a clear review process. By allowing board owners to assign scopes and resolutions, visitors can better understand how feedback is being considered and addressed.</p>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <h5>Contact Us</h5>
+                            <p>If you have questions, suggestions, or encounter any issues while using the platform, please get in touch through the <a href="/company/contact" class="clean-link">contact</a> page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{{ end }}

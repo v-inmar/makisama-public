@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS contact_model (
+    id BIGSERIAL PRIMARY KEY,
+    firstname TEXT NOT NULL,
+    lastname TEXT NOT NULL,
+    email TEXT NOT NULL,
+    message TEXT DEFAULT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);

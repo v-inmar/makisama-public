@@ -1,0 +1,97 @@
+{{template "base" .}}
+{{define "title"}}Pending Feedbacks{{end}}
+{{define "content"}}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            <div class="row">
+                <div class="col-12 d-flex justify-content-between">
+                    <p class="mb-0"><a class="clean-link" href="/{{.Data.BoardSlug}}">Back
+                            to board</a></p>
+                    
+                    <p class="mb-0">Feedabcks ({{ .Data.TotalPendingCount }})</p>
+                </div>
+            </div>
+            <hr class="mt-1">
+
+            <div class="row">
+                <div class="col-12">
+
+                    {{ if .Data.Feedbacks }}
+                    {{ range .Data.Feedbacks }}
+                    <div class="list-group mb-2">
+                        <a href="/feedbacks/review?f={{ .Slug }}" type="button" data-slug="{{ .Slug }}" class="list-group-item list-group-item-action">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <h5 class="text-truncate flex-grow-1 mb-0">{{ .Title }}</h5>
+                                        <small class="flex-shrink-0 text-muted dt-relative">{{ formatTime .CreatedAt
+                                            }}</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                {{ if .Description }}
+                                <div class="col-12 text-truncate">
+                                    <small class="text-muted">{{ .Description }}</small>
+                                </div>
+                                {{ else }}
+                                <div class="col-12">
+                                    <small class="text-info"><em>No Description</em></small>
+                                </div>
+                                {{ end }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <span class="badge text-bg-danger d-default" title="Expires after">{{ formatTime .ExpiresAt }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {{end}}
+
+                    {{ else }}
+                    <div class="d-flex justify-content-center">
+                        <p class="text-muted"><em>No pending feedbacks</em></p>
+                    </div>
+                    {{ end }}
+
+
+                </div>
+            </div>
+
+
+            <!-- Pagination -->
+            {{ if gt (len .Data.PageSequence) 1 }}
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item">
+                                <a class="page-link" href="/feedbacks/pending?b={{.Data.BoardSlug}}&page={{ minusminus $.Data.CurrentPage }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {{ range .Data.PageSequence }}
+                            <li class="page-item {{ if eq . $.Data.CurrentPage}}active{{ end }}"><a class="page-link" href="/feedbacks/pending?b={{.Data.BoardSlug}}&page={{ . }}">{{ . }}</a></li>
+                            {{ end }}
+                            <li class="page-item">
+                                <a class="page-link" href="/feedbacks/pending?b={{.Data.BoardSlug}}&page={{ plusplus $.Data.CurrentPage }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+            {{ end }}
+
+        </div>
+    </div>
+</div>
+{{ end }}

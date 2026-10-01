@@ -1,0 +1,181 @@
+{{template "base" .}}
+{{define "title"}}New Board{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            <div class="row">
+
+                <div class="col-sm-12 col-md-12 col-lg-5 mb-2">
+                    <div class="card shadow text-bg-primary">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <p><strong>Board Owner Responsibilities</strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul>
+                                        <li><small>Moderating submitted feedbacks</small></li>
+                                        <li><small>Assigning Scope and Resolution for each feedback</small></li>
+                                        <li><small>Review any reported feedbacks and take appropriate actions</small>
+                                        </li>
+                                        <li><small>Must adhere to the <a href="/company/terms" style="color: #ffffff;">Terms of Service</a> and <a href="/company/privacy" style="color: #ffffff;">Privacy Policy</a></small></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-7 mb-2">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <form action="/boards/new" method="post" enctype="multipart/form-data">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <h4>Create a board</h4>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Title*</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="text" name="title" class="form-control form-control-sm" {{ if .Data.Title }}value="{{.Data.Title}}"{{end}} maxlength="60"
+                                                    placeholder="i.e. My Awesome Product" required>
+                                            </div>
+                                        </div>
+                                        {{ if .Data.ErrorTitle }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{ .Data.ErrorTitle }}</small>
+                                            </div>
+                                        </div>
+                                        {{end}}
+
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Image (400x250 2MiB)</small>
+                                            </div>
+                                            <div class="col-12">
+                                                <small>jpeg, png, webp</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="file" name="image" class="form-control form-control-sm"
+                                                    accept="image/jpeg,image/png,image/webp">
+                                            </div>
+                                        </div>
+                                        {{ if .Data.ErrorImage }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{ .Data.ErrorImage }}</small>
+                                            </div>
+                                        </div>
+                                        {{end}}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Website</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="text" name="website" {{ if .Data.Website }}value="{{.Data.Website}}"{{end}} class="form-control form-control-sm" maxlength="200"
+                                                    >
+                                            </div>
+                                        </div>
+                                        {{ if .Data.ErrorWebsite }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{.Data.ErrorWebsite}}</small>
+                                            </div>
+                                        </div>
+                                        {{end}}
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Description</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <textarea class="form-control" name="description" rows="4" maxlength="1000">{{ .Data.Description }}</textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input border" name="acknowledge" type="checkbox" required>
+                                                    <small>I acknowledge and accept the <strong>Board Owner
+                                                            Responsibilities</strong></small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{ if .Data.ErrorAcknowledge}}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{.Data.ErrorAcknowledge}}</small>
+                                            </div>
+                                        </div>
+                                        {{end}}
+                                    
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{{end}}

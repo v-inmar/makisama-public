@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS user_model;
+DROP TABLE IF EXISTS authid_model;

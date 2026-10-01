@@ -1,0 +1,183 @@
+{{template "base" .}}
+{{define "title"}}Edit Board{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-8 col-lg-4 offset-md-2 offset-lg-4">
+            <div class="row">
+                <div class="col-12">
+                    <p><a href="/{{ .Data.BoardSlug }}" class="clean-link">Back to board</a></p>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/{{ .Data.BoardSlug }}/edit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <h4>Edit board</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Title*</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" value="{{ .Data.Title }}" name="title" class="form-control form-control-sm" maxlength="60" minlength="5"
+                                            placeholder="i.e. My Company Awesome Product" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorTitle }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorTitle }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Image (400x250 2MiB)</small>
+                                    </div>
+                                    <div class="col-12">
+                                        <small>jpeg, png, webp</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="file" name="image" class="form-control form-control-sm"
+                                            accept="image/jpeg,image/png,image/webp">
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorImage }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorImage }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Website</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" name="website" value="{{ .Data.Website }}"  class="form-control form-control-sm" maxlength="200"
+                                            placeholder="i.e. www.mycompany.com">
+                                    </div>
+                                </div>
+                                {{ if .Data.ErroWebsite }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorWebsite }}</small>
+                                    </div>
+                                </div>
+                                {{ end }}
+
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Description</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <textarea name="description" class="form-control" rows="4" maxlength="1000">{{ .Data.Description }}</textarea>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Save</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-4 offset-md-2 offset-lg-4">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBoardModal">Delete Board</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Delete board -->
+<div class="modal fade" id="deleteBoardModal" tabindex="-1" aria-labelledby="deleteBoardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Are you sure you want to delete this board? This action cannot be undone.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-primary" role="alert">
+                                {{ .Data.Title }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="/{{.Data.BoardSlug}}/delete" method="post">
+                                <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-sm btn-danger">Yes! Delete it!</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

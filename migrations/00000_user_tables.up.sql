@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS authid_model (
+    id BIGSERIAL PRIMARY KEY,
+    value TEXT UNIQUE NOT NULL,
+    ttl TIMESTAMPTZ DEFAULT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_model (
+    id BIGSERIAL PRIMARY KEY,
+    password TEXT NOT NULL,
+    verified_at TIMESTAMPTZ DEFAULT NULL,
+    deactivated_at TIMESTAMPTZ DEFAULT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT NULL,
+    firstname TEXT NOT NULL,
+    lastname TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    authid_id BIGINT UNIQUE NOT NULL,
+    pid TEXT UNIQUE NOT NULL,
+
+    CONSTRAINT fk_authid_user FOREIGN KEY (authid_id) REFERENCES authid_model (id)
+);

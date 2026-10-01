@@ -1,0 +1,21 @@
+{{template "base" .}}
+{{define "title"}}{{ .Data.AppName }}{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-4 offset-md-2 offset-lg-4">
+            <div class="card shadow mt-5 pt-5 pb-4">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-3">Feedback that actually gets managed</h3>
+                    <p class="card-text text-center">Public feedback boards with moderation, decisions, and lifecycle
+                        management built in</p>
+                    <div class="d-flex justify-content-center">
+                        <a type="button" class="btn btn-sm btn-outline-primary" href="/auth/signup">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

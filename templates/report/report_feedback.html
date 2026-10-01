@@ -1,0 +1,155 @@
+{{template "base" .}}
+{{define "title"}}Report Feedback{{end}}
+
+{{define "content"}}
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <form action="/report/feedbacks?f={{ .Data.FeedbackSlug}}" method="post">
+                                <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <h4>Report Feedback</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert alert-warning d-flex justify-content-center" style="word-break: break-word;" role="alert">
+                                            <em>{{ .Data.FeedbackTitle }}</em>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Reason*</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <select name="reason" class="form-select form-select-sm"
+                                                    aria-label="Reason">
+                                                    <option value="none" {{if not .Data.Reason }}selected{{ end }}>Select a Report Reason</option>
+                                                    {{ range $k, $_ := .Data.ReasonList }}
+                                                    <option value="{{ $k }}" {{ if eq $k $.Data.Reason }}selected{{end}}>{{ $k }}</option>
+                                                    {{ end }}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{ if .Data.ErrorReason }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{ .Data.ErrorReason }}</small>
+                                            </div>
+                                        </div>
+                                        {{ end }}
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Additional details (optional)</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <textarea name="comment" class="form-control" rows="4"
+                                                    maxlength="{{ .Data.CommentMaxLength }}"></textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                {{ if not .IsAuthenticated }}
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div>
+                                                    <small>Email Address (Optional)</small>
+                                                </div>
+                                                
+                                                <div>
+                                                    <small>Provide your email if you'd like updates about this
+                                                        report.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input name="email" type="email" value="{{ if .Data.Email }}{{ .Data.Email }}{{end}}" class="form-control form-control-sm" maxlength="{{ .Data.EmailMaxLength }}">
+                                            </div>
+                                        </div>
+                                        {{ if .Data.ErrorEmail }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{ .Data.ErrorEmail }}</small>
+                                            </div>
+                                        </div>
+                                        {{ end }}
+
+                                        
+
+                                    </div>
+                                </div>
+                                {{ end }}
+
+                                {{ if not .IsAuthenticated }}
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <div class="cf-turnstile" data-theme="light" data-sitekey="{{ .CaptchaSiteKey }}"></div>
+                                            </div>
+                                        </div>
+                                
+                                        {{ if .Data.ErrorCaptcha }}
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <small class="text-danger">{{ .Data.ErrorCaptcha}}</small>
+                                            </div>
+                                        </div>
+                                        {{ end }}
+                                    </div>
+                                </div>
+                                {{ end }}
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{{end}}

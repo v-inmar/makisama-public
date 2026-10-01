@@ -1,0 +1,146 @@
+{{template "base" .}}
+{{define "title"}}New Feedback{{end}}
+
+{{define "content"}}
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            <div class="row">
+                <div class="col-12">
+                    <p><a class="clean-link" href="/{{ .Data.BoardSlug }}">Back to board</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow">
+
+                        <div class="card-body">
+                            <form action="/feedbacks/new?b={{ .Data.BoardSlug }}" method="post">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <h4>Add feedback</h4>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Short description*</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="text" name="title" {{ if .Data.Title }}value="{{ .Data.Title }}" {{end}} class="form-control" minlength="{{ .Data.TitleMinLength}}" maxlength="{{ .Data.TitleMaxLength}}" required>
+                                            </div>
+                                        </div>
+                                        {{ if .Data.ErrorTitle }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{.Data.ErrorTitle}}</small>
+                                            </div>
+                                        </div>
+                                        {{end}}
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Provide more details</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <textarea class="form-control" name="description" rows="4" maxlength="{{ .Data.DescriptionMaxLength }}">{{ .Data.Description }}</textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                {{ if not .IsAuthenticated }}
+                                <div class="row mb-3">
+                                    <div class="col-12">
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>Email Address (Optional: To get updates about your
+                                                    feedback)</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="email" name="email" {{ if .Data.Email }}value="{{ .Data.Email }}"{{end}} class="form-control" maxlength="{{ .Data.EmailMaxLength }}">
+                                            </div>
+                                        </div>
+
+                                        {{ if .Data.ErrorEmail }}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small class="text-danger">{{.Data.ErrorEmail}}</small>
+                                            </div>
+                                        </div>
+                                        {{end}}
+
+                                    </div>
+                                </div>
+                                {{ end }}
+
+
+                                {{ if not .IsAuthenticated }}
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <div class="cf-turnstile" data-theme="light" data-sitekey="{{ .CaptchaSiteKey }}"></div>
+                                            </div>
+                                        </div>
+                                
+                                        {{ if .Data.ErrorCaptcha }}
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <small class="text-danger">{{ .Data.ErrorCaptcha}}</small>
+                                            </div>
+                                        </div>
+                                        {{ end }}
+                                    </div>
+                                </div>
+
+
+
+                                
+                                {{ end }}
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-end align-items-center">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{end}}

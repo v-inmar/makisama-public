@@ -1,0 +1,52 @@
+services:
+  # 1. Define web application service
+  web:
+    # 2. Point to the current directory (.) to find  Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # 3. Pass the Git arguments for versioning down to your Dockerfile
+      args:
+        - VERSION=${VERSION:-dev}
+        - COMMIT=${COMMIT:-unknown}
+        - BUILD_TIME=${BUILD_TIME:-unknown}
+    
+    # 4. Map the ports (Host:Container)
+    ports:
+      - "5000:5000"
+    
+    # 5. Automatically stream your .env variables straight into the container's RAM
+    env_file:
+      - .env.docker
+    
+    # 6. Prevent your app from booting until the database container is fully healthy
+    depends_on:
+      db:
+        condition: service_healthy
+    
+
+  # 7. Define the matching PostgreSQL service
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=makisamadb
+    
+    ports:
+      - "5432:5432"
+    
+    # 8. Persistent storage so your data doesn't wipe out when the container stops
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+    # 9. The health check that the 'web' service is waiting for
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+# 10. Declare the persistent storage volume at the very bottom
+volumes:
+  postgres_data:

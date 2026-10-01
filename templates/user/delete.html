@@ -1,0 +1,99 @@
+{{template "base" .}}
+{{define "title"}}Delete Account{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-8 col-lg-4 offset-md-2 offset-lg-4">
+            <div class="row">
+                <div class="col-12">
+                    <p><a href="/accounts" class="clean-link">Back to account</a></p>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/accounts/delete" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <h4>Delete Account</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Password</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input name="password" type="password" class="form-control" required>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorPassword }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorPassword }}</small>
+                                    </div>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>Deleting your account will:</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul>
+                                            <li><small>Permanently remove all boards you've created.</small></li>
+                                            <li><small>Keep any feedback you've posted on boards owned by others.</small></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert alert-danger" role="alert">
+                                            This action is permanent and cannot be undone. If you are not sure, you can <a class="clean-link" href="/accounts/deactivate">deactivate</a> your account instead
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <button type="submit" class="btn btn-sm btn-danger">Submit</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+{{end}}

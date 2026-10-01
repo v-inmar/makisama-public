@@ -1,0 +1,20 @@
+{{template "base" .}}
+{{define "title"}}{{.Data.StatusCode}} - Error{{end}}
+{{define "content"}}
+
+<div class="container">
+    <div class="col-sm-12 col-md-6 offset-md-3">
+        <div class="card shadow text-bg-danger">
+            <div class="card-body">
+                
+                <h6 class="card-subtitle mb-1 text-center">{{.Data.Title}}</h6>
+                <h1 class="card-title text-center mb-2">{{.Data.StatusCode}}</h1>
+                <p class="card-text text-center">{{.Data.Message}}</p>
+                <div class="text-center">
+                    <a href="/" type="button" class="btn btn-sm btn-primary">Return Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

@@ -1,0 +1,507 @@
+{{template "base" .}}
+{{define "title"}}{{ .Data.BoardTitle }}{{end}}
+
+
+{{define "content"}}
+
+<div class="container">
+    <div class="row">
+        <!-- Board -->
+        <div class="col-sm-12 col-md-12 col-lg-4 mb-5">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+
+                    <div class="card shadow">
+                        {{ if .Data.IsOwner }}
+                        {{ if .Data.IsTherePending }}
+                        <div class="list-group list-group-flush">
+                            <a href="/feedbacks/pending?b={{.Data.BoardSlug}}&page=1"
+                                class="list-group-item list-group-item-action text-bg-info text-white">
+                                <div class="d-flex justify-content-center">
+                                    <small><em>Review Pending</em></small>
+                                </div>
+                            </a>
+                        </div>
+                        {{end}}
+                        {{ end }}
+
+                        {{ if .Data.BoardImage }}
+                        <img src="/files/images/{{.Data.BoardImage}}" class="card-img-top" alt="Board image" width="400" height="250">
+                        {{else}}
+                        <img src="/static/images/no_image.png" class="card-img-top border border-0"
+                            title="No image" alt="Board image" style="width: 400px; height: 250px;">
+                        
+                        {{end}}
+                        <div class="card-body border border-top-0">
+                            <h5 class="card-title">{{ .Data.BoardTitle }}</h5>
+                            {{ if .Data.BoardWebsite }}
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{.Data.BoardWebsite }}</h6>
+                            {{end }}
+
+                            <p class="card-text">{{ .Data.BoardDescription }}</p>
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <button data-bs-toggle="modal" data-bs-target="#statsBoardModal"
+                                        class="btn btn-sm btn-secondary" title="Stats">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-bar-chart" viewBox="0 0 16 16">
+                                            <path
+                                                d="M4 11H2v3h2zm5-4H7v7h2zm5-5v12h-2V2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1z" />
+                                        </svg>
+                                    </button>
+                                    {{ if .IsAuthenticated }}
+                                    <button class="btn btn-sm btn-primary" title="Add Feedback"
+                                        data-bs-target="#addFeedbackModal" data-bs-toggle="modal">Add Feedback</button>
+                                    {{ else }}
+                                    <a class="btn btn-sm btn-primary" href="/feedbacks/new?b={{.Data.BoardSlug}}"
+                                        title="Add Feedback" role="button">Add Feedback</a>
+                                    {{ end }}
+                                </div>
+                                {{ if .Data.IsOwner }}
+                                <a href="/{{ .Data.BoardSlug }}/edit" type="button" class="btn btn-sm btn-secondary" title="Edit board">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                        <path
+                                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                    </svg>
+                                </a>
+                                {{ else }}
+                                <a href="/report/boards?b={{ .Data.BoardSlug }}" type="button" class="btn btn-sm btn-danger" title="Report this board">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-flag" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21 21 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21 21 0 0 0 14 7.655V1.222z" />
+                                    </svg>
+                                </a>
+                                {{ end }}
+                            </div>
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedbacks -->
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-between">
+                    <p class="mb-1">Feedbacks ({{ .Data.TotalFeedbackCount }})</p>
+                    <div>
+                        {{ if .IsAuthenticated }}
+                        <button class="btn btn-sm text-primary" title="Add feedback" data-bs-target="#addFeedbackModal"
+                            data-bs-toggle="modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                            </svg>
+                        </button>
+                        {{else}}
+                        <a class="btn btn-sm text-primary" href="/feedbacks/new?b={{.Data.BoardSlug}}"
+                            title="Add Feedback" role="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                            </svg>
+                        </a>
+                        {{end}}
+                        <button class="btn btn-sm" title="Filter board feedbacks" data-bs-toggle="modal"
+                            data-bs-target="#filterFeedbackModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-filter" viewBox="0 0 16 16">
+                                <path
+                                    d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
+                            </svg>
+                        </button>
+                        <!-- <button class="btn btn-sm" title="Search board feedbacks">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-search" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                            </svg>
+                        </button> -->
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="mt-0">
+
+            <!-- Feedback List -->
+            <div class="row">
+                <div class="col-12">
+                    {{ if .Data.Feedbacks }}
+                    {{ range .Data.Feedbacks }}
+                    <div class="list-group mb-2">
+                        <button type="button" data-slug="{{ .Slug }}" class="list-group-item list-group-item-action"
+                            onclick="getFeedback(event, this)">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <h5 class="text-truncate flex-grow-1 mb-0">{{ .Title }}</h5>
+                                        <small class="flex-shrink-0 text-muted dt-relative">{{ formatTime .CreatedAt
+                                            }}</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                {{ if .Description }}
+                                <div class="col-12 text-truncate">
+                                    <small class="text-muted">{{ .Description }}</small>
+                                </div>
+                                {{ else }}
+                                <div class="col-12">
+                                    <small class="text-info"><em>No Description</em></small>
+                                </div>
+                                {{ end }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <span class="badge text-bg-warning mr-5">{{ capitalize .Scope }}</span>
+                                    <span class="badge text-bg-secondary">{{ capitalize .Resolution }}</span>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    {{end}}
+                    {{else }}
+                    <div class="d-flex justify-content-center"><em>No Feedbacks</em></div>
+                    {{end}}
+
+
+
+
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            {{ if gt (len .Data.PageSequence) 1 }}
+            <div class="row" id="boardPagination">
+                <div class="col-12 d-flex justify-content-center">
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/{{ $.Data.BoardSlug }}?scope={{$.Data.QueryScope}}&resolution={{$.Data.QueryResolution}}&page={{ minusminus $.Data.CurrentPage }}"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {{ range .Data.PageSequence }}
+                            <li class="page-item {{ if eq . $.Data.CurrentPage}}active{{ end }}"><a class="page-link"
+                                    href="/{{ $.Data.BoardSlug }}?scope={{$.Data.QueryScope}}&resolution={{$.Data.QueryResolution}}&page={{ . }}">{{
+                                    . }}</a></li>
+                            {{ end }}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="/{{ $.Data.BoardSlug }}?scope={{$.Data.QueryScope}}&resolution={{$.Data.QueryResolution}}&page={{ plusplus $.Data.CurrentPage }}"
+                                    aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+            {{ end }}
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Add Feedback Modal -->
+{{ if .IsAuthenticated }}
+<div class="modal fade" id="addFeedbackModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addFeedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Feedback</h1>
+                <button type="button" id="addFeedbackModalXBtn" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form id="addFeedbackModalForm" action="/api/feedbacks" method="post"
+                onsubmit="submitNewFeedback(event, this)" data-board-slug="{{ .Data.BoardSlug }}">
+                <div class="modal-body">
+                    <div class="alert alert-danger text-center d-none" id="addFeedbackErrorAlert" role="alert">Testing
+                        General Error</div>
+
+
+                    <input id="addFeedbackCSRF" type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+
+                    <div class="mb-3">
+                        <small class="text-muted">Short description</small>
+                        <input type="text" name="title" class="form-control" id="addFeedbackTitle" minlength="3" maxlength="60" required>
+                        <div>
+                            <small id="addFeedbackTitleError" class="text-danger d-none"></small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <small class="text-muted">Provide further details</small>
+                        <textarea class="form-control" name="description" id="addFeedbackDescription" rows="5"
+                            maxlength="3000"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="addFeedbackModalCancelBtn" class="btn btn-secondary btn-sm"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" id="addFeedbackModalSubmitBtn" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{ end }}
+
+
+<!-- Feedback Modal For Users -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div id="feedbackModalErrorDiv" class="d-none">
+                    <div>
+                        <div id="feedbackModalErrorTextDiv" class="alert alert-danger" role="alert"></div>
+                    </div>
+                </div>
+                <div id="feedbackModalLoadingDiv" class="d-none">
+                    <div class="d-flex justify-content-center mt-5 mb-2">
+                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem; font-size: 3rem;"
+                            role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+
+                    </div>
+                    <div class="d-flex justify-content-center mb-5">
+
+
+                        <div style="font-size: 1.5rem;" class="text-primary">
+                            Fetching data...
+                        </div>
+                    </div>
+                </div>
+                <div id="feedbackModalDataDiv" class="d-none">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div class="d-flex flex-grow-1">
+                            <div id="feedbackModalDataTitleDiv" style="font-size: 1.3rem; margin-bottom: 1rem;">
+                                <strong></strong>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-shrink-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 0.8rem;" class="d-flex justify-content-between">
+                        <div>
+                            <span id="feedbackModalScope" class="badge text-bg-warning"></span>
+                            <span id="feedbackModalResolution" class="badge text-bg-secondary"></span>
+                        </div>
+                        <div>
+                            <small><a id="feedbackModalReport" class="clean-link text-danger" href=""
+                                    title="Report this feedback">Report</a></small>
+                        </div>
+
+
+                    </div>
+                    <div id="feedbackModalDataCreatedAtDiv" style="font-size: 0.9rem;" class="text-muted"></div>
+                    <div id="feedbackModalDataDescDiv" class="mb-4" style="font-size: 1.1rem; word-break: break-word;"></div>
+
+                    <div id="feedbackModalDataReviewDiv" class="d-flex justify-content-end d-none">
+                        <a type="button" id="feedbackModalDataReviewAnchor" class="btn btn-sm btn-light" href="">Review
+                            <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterFeedbackModal" tabindex="-1" aria-labelledby="filterFeedbackModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Filter</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Scope</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="all" type="radio"
+                                                    name="filterScopeRadio">
+                                                <small>All</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{ range $k, $_ := .Data.ScopeList }}
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="{{ $k }}" type="radio"
+                                                    name="filterScopeRadio">
+                                                <small>{{ capitalize $k }}</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="col-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Resolution</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="all" type="radio"
+                                                    name="filterResolutionRadio">
+                                                <small>All</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{ range $k, $_ := .Data.ResolutionList }}
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="{{ $k }}" type="radio"
+                                                    name="filterResolutionRadio">
+                                                <small>{{ capitalize $k }}</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="applyFilter()">Apply Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Stats Modal -->
+<div class="modal fade" id="statsBoardModal" tabindex="-1" aria-labelledby="statsBoardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="statsBoardModalLabel">Mini Stats</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Total Feedbacks</th>
+                                        <td>{{ .Data.TotalNumberOfFeedback }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-6">
+
+                            <table class="table">
+                                <tbody>
+                                    {{ range .Data.ScopeStats }}
+                                    <tr>
+                                        <th scope="row">{{ capitalize .Scope }}</th>
+                                        <td>{{ .Count }}</td>
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+                        <div class="col-6">
+                            <table class="table">
+                                <tbody>
+                                    {{ range .Data.ResolutionStats }}
+                                    <tr>
+                                        <th scope="row">{{ capitalize .Resolution }}</th>
+                                        <td>{{ .Count }}</td>
+                                    </tr>
+                                    {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{end}}

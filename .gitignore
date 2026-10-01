@@ -1,0 +1,27 @@
+.env
+.env.docker
+/temp
+/tmp
+/logs
+
+/cred-notes.txt
+/notes.txt
+
+/internal/image_directory/boards/*
+/images
+/build
+.air.toml
+package-lock.json
+
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

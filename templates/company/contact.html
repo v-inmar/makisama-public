@@ -1,0 +1,156 @@
+{{template "base" .}}
+{{define "title"}}Contact Us{{end}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/company/contact" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ .CSRFToken}}">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <h4>Contact Us</h4>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mb-3">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Firstname*</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" {{ if .Data.Firstname }}value="{{.Data.Firstname}}" {{ end }}
+                                            name="firstname" class="form-control" minlength="3" maxlength="32" {{ if .IsAuthenticated }}disabled{{else}}required{{end}}>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorFirstname }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorFirstname }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                            <div class="col-sm-12 col-md-6 mb-3">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Lastname*</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" {{ if .Data.Lastname }}value="{{.Data.Lastname}}" {{ end }}
+                                            name="lastname" class="form-control" minlength="3" maxlength="32" {{ if .IsAuthenticated }}disabled{{else}}required{{end}}>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorLastname }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorLastname }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Email Address*</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="email" {{ if .Data.Email }}value="{{.Data.Email}}" {{ end }}
+                                            name="email" class="form-control" minlength="5" maxlength="250" {{ if .IsAuthenticated }}disabled{{else}}required{{end}}>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorEmail }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorEmail }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+                            </div>
+                        </div>
+
+                        
+
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small>Message*</small>
+                                    </div>
+                                </div>
+                                {{ if .Data.ErrorMessage }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <small class="text-danger">{{ .Data.ErrorMessage }}</small>
+                                    </div>
+                                </div>
+                                {{end}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <textarea class="form-control" rows="6" name="message" maxlength="5000" minlength="1" required>{{ if .Data.Message }}{{ .Data.Message }}{{ end }}</textarea>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        {{ if not .IsAuthenticated }}
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <div class="cf-turnstile" data-theme="light"
+                                        data-sitekey="{{ .CaptchaSiteKey }}"></div>
+                                    </div>
+                                </div>
+
+                                {{ if .Data.ErrorCaptcha }}
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <small class="text-danger">{{ .Data.ErrorCaptcha}}</small>
+                                    </div>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{end }}
+
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end align-items-center">
+                                <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{ end }}
